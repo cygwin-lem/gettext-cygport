@@ -1,0 +1,47 @@
+inherit java
+
+DESCRIPTION="Tools for producing multi-lingual messages in programs."
+HOMEPAGE="http://www.gnu.org/software/gettext/"
+SRC_URI="http://ftp.gnu.org/gnu/${PN}/${P}.tar.gz"
+
+PKG_NAMES="${PN} ${PN}-devel libgettextpo0 libasprintf0 libintl8"
+
+DISTCLEANFILES="m4/libtool.m4"
+
+src_compile() {
+	cd ${S}
+	libtoolize --copy --force || error "libtoolize failed"
+	./autogen.sh --quick --skip-gnulib
+
+	cd ${B}
+	cygconf \
+		--enable-shared --enable-static \
+		--disable-csharp \
+		--enable-java \
+		--disable-native-java \
+		--disable-rpath \
+		--disable-openmp \
+		--with-included-gettext \
+		--without-emacs
+
+	cygmake -j1 aliaspath="/usr/share/locale:/usr/local/share/locale:/usr/share/X11/locale"
+}
+
+src_test() {
+	cd ${B}/gettext-runtime
+	cygtest || true
+
+	cd ${B}/gettext-tools
+	cygtest || true
+}
+
+src_install() {
+	cd ${B}
+	cyginstall -j1
+
+	# static libraries are deleted during install
+	sed -i -e "s|old_library=.*|old_library=''|" ${D}/usr/lib/libgettext{lib,src}.la
+
+	# csharp interface is not installed
+	rm -fr ${D}/usr/share/doc/${P}/csharpdoc/
+}

@@ -1,0 +1,12 @@
+category: Libs 
+requires: cygwin
+external-source: gettext
+sdesc: "C-style formatted output in C++ (runtime)"
+ldesc: "libasprintf makes the C formatted output routines (fprintf et. 
+al.) usable in C++ programs, with C++ Standard Library strings and 
+iostreams.  This is important for gettext/internationalized C++ 
+programs, as the format string in the autosprintf example can be 
+translated as a single unit, while the C++-traditional style cannot.  
+Further, autosprintf supports positional parameters in the format 
+string, which is important when the translation rearranges the 
+arguments."
