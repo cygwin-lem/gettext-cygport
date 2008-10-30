@@ -3,6 +3,7 @@ inherit java
 DESCRIPTION="Tools for producing multi-lingual messages in programs."
 HOMEPAGE="http://www.gnu.org/software/gettext/"
 SRC_URI="http://ftp.gnu.org/gnu/${PN}/${P}.tar.gz"
+PATCH_URI="0.17-GETTEXT_VERSION-minimum.patch"
 
 PKG_NAMES="${PN} ${PN}-devel libgettextpo0 libasprintf0 libintl8"
 

@@ -29,7 +29,7 @@ Runtime requirements:
 
 Build requirements:
 (besides corresponding -devel packages)
-  autoconf2.5-2.62-1
+  autoconf2.5-2.63-1
   automake1.10-1.10.1-1
   binutils-20080624-2
   bison-2.3-1
@@ -78,6 +78,11 @@ or browse the listing for the appropriate version at
 -------------------------------------------
 
 Port Notes:
+
+----- version 0.17-2 -----
+Patch for autopoint to treat AC_GNU_GETTEXT_VERSION as minimum instead
+of absolute, so that current gettext is always used in order to prevent
+problems with libtool-2.2.
 
 ----- version 0.17-1 -----
 Version bump; last distro release was 0.15-1.
