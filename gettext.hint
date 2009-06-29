@@ -1,5 +1,5 @@
 category: Devel Libs
-requires: cygwin libintl8 libiconv2 libiconv
+requires: libintl8 libiconv2 libiconv
 sdesc: "GNU Internationalization library and core utilities"
 ldesc: "The GNU gettext package provides a set of tools and 
 documentation for producing multi-lingual messages in programs. Tools 

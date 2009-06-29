@@ -1,5 +1,5 @@
 category: Devel
-requires: cygwin gettext libcroco06 libexpat1 libiconv2 libintl8 libncurses8 bash coreutils cvs diffutils findutils grep gzip mktemp sed tar
+requires: gettext libcroco06 libexpat1 libiconv2 libintl8 libncurses8 bash coreutils cvs diffutils findutils grep gzip mktemp sed tar
 external-source: gettext
 sdesc: "GNU Internationalization development utilities"
 ldesc: "The GNU gettext package provides a set of tools and 
