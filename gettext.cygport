@@ -1,0 +1,150 @@
+# inherit java
+
+NAME="gettext"
+VERSION=0.18.1.1
+RELEASE=2
+CATEGORY="Libs"
+SUMMARY="GNU Internationalization library and core utilities"
+DESCRIPTION="The GNU gettext package provides a set of tools and documentation
+for producing multi-lingual messages in programs. Tools include a set of
+conventions about how programs should be written to support message catalogs,
+a directory and file naming organization for the message catalogs, a runtime
+library which supports the retrieval of translated messages, and stand-alone
+programs for handling the translatable and the already translated strings.
+Gettext provides an easy to use library and tools for creating, using, and
+modifying natural language catalogs and is a powerful and simple method for
+internationalizing programs."
+HOMEPAGE="http://www.gnu.org/software/gettext/"
+SRC_URI="http://ftp.gnu.org/gnu/${PN}/${P}.tar.gz"
+
+PATCH_URI="
+	0.18.1.1-autopoint-V.patch
+	0.18.1.1-cygwin-error_h.patch
+	0.18.1.1-locale.patch
+	0.18.1.1-reloc.patch
+"
+
+PKG_NAMES="gettext gettext-devel libgettextpo0 libasprintf0 libintl8"
+gettext_CONTENTS="usr/bin/envsubst.exe usr/bin/gettext.* usr/bin/ngettext.*exe
+	usr/include/autosprintf.h usr/include/libintl.h usr/lib/libasprintf.*
+	usr/lib/libintl.* usr/lib/charset.alias usr/share/doc/Cygwin/
+	usr/share/doc/gettext-*/[ACHINRT]*
+	usr/share/doc/gettext-*/autosprintf_all.html
+	usr/share/doc/gettext-*/envsubst.1.html
+	usr/share/doc/gettext-*/gettext.1.html
+	usr/share/doc/gettext-*/ngettext.1.html
+	usr/share/doc/gettext-*/*.3.html
+	usr/share/doc/gettext-*/javadoc2/
+	usr/share/man/man1/gettext.* usr/share/man/man1/ngettext.*
+	usr/share/man/man1/envsubst.* usr/share/info/autosprintf.info*
+	usr/share/locale/*/LC_MESSAGES/gettext-runtime.mo
+	usr/share/locale/locale.alias usr/share/man/man3/*"
+gettext_devel_CATEGORY="Devel"
+gettext_devel_SUMMARY="GNU Internationalization development utilities"
+gettext_devel_CONTENTS="usr/bin/autopoint usr/bin/cyggettextlib-*.dll
+	usr/bin/cyggettextsrc-*.dll usr/bin/gettextize usr/bin/msg*.exe
+	usr/bin/recode-sr-latin.exe usr/bin/xgettext.exe
+	usr/include/gettext-po.h usr/lib/libgettext* usr/lib/gettext/*
+	usr/share/aclocal/
+	usr/share/doc/gettext-*/FAQ.html
+	usr/share/doc/gettext-*/autopoint.1.html
+	usr/share/doc/gettext-*/msg*.1.html
+	usr/share/doc/gettext-*/gettextize.1.html
+	usr/share/doc/gettext-*/gettext_*.html
+	usr/share/doc/gettext-*/recode-sr-latin.1.html
+	usr/share/doc/gettext-*/tutorial.html
+	usr/share/doc/gettext-*/xgettext.1.html
+	usr/share/doc/gettext-*/examples/
+	usr/share/gettext/ usr/share/info/gettext.info*
+	usr/share/man/man1/autopoint.* usr/share/man/man1/gettextize.*
+	usr/share/man/man1/msg*.* usr/share/man/man1/recode-sr-latin.*
+	usr/share/man/man1/xgettext.*
+	usr/share/locale/*/LC_MESSAGES/gettext-tools.mo"
+libasprintf0_SUMMARY="C-style formatted output in C++ (runtime)"
+libasprintf0_CONTENTS="usr/bin/cygasprintf-0.dll"
+libgettextpo0_SUMMARY="GNU Internationalization runtime library"
+libgettextpo0_CONTENTS="usr/bin/cyggettextpo-0.dll"
+libintl8_SUMMARY="GNU Internationalization runtime library"
+libintl8_CONTENTS="usr/bin/cygintl-8.dll"
+
+DIFF_EXCLUDES="aclocal.m4 configure config.* libtool.m4 lt*.m4 ltmain.sh Makefile.in"
+DISTCLEANFILES="m4/libtool.m4"
+
+src_compile() {
+	cd ${S}
+	libtoolize --copy --force || error "libtoolize failed"
+	./autogen.sh --quick --skip-gnulib
+
+	cd ${B}
+	cygconf \
+		--enable-shared --enable-static \
+		--disable-csharp \
+		--disable-java \
+		--disable-native-java \
+		--disable-rpath \
+		--disable-openmp \
+		--with-included-gettext \
+		--without-emacs \
+		--with-included-glib \
+		--with-included-libcroco \
+		--with-included-libunistring \
+		--with-included-libxml \
+		ac_cv_func_lstat_dereferences_slashed_symlink=yes \
+		am_cv_func_iconv_works=yes \
+		gl_cv_cc_visibility=no \
+		gl_cv_header_working_fcntl_h=yes \
+		gl_cv_func_btowc_eof=yes \
+		gl_cv_func_btowc_nul=yes \
+		gl_cv_func_dup2_works=yes \
+		gl_cv_func_fcntl_f_dupfd_works=yes \
+		gl_cv_func_fnmatch_posix=yes \
+		gl_cv_func_fopen_slash=yes \
+		gl_cv_func_working_getdelim=yes \
+		gl_cv_func_getopt_posix=yes \
+		gl_cv_func_gettimeofday_clobber=no \
+		gl_cv_func_mbrtowc_incomplete_state=yes \
+		gl_cv_func_mbrtowc_null_arg=yes \
+		gl_cv_func_mbrtowc_retval=yes \
+		gl_cv_func_mbsrtowcs_works=yes \
+		gl_cv_func_memchr_works=yes \
+		gl_cv_func_open_slash=yes \
+		gl_cv_func_readlink_works=yes \
+		gl_cv_func_rmdir_works=yes \
+		gt_cv_func_printf_posix=yes \
+		gl_cv_func_setenv_works=yes \
+		gl_cv_func_snprintf_retval_c99=yes \
+		gl_cv_func_snprintf_size1=yes \
+		gl_cv_func_stat_dir_slash=yes \
+		gl_cv_func_stat_file_slash=yes \
+		gl_cv_func_stpncpy=yes \
+		gl_cv_func_strstr_linear=yes \
+		gl_cv_func_svid_putenv=yes \
+		gl_cv_func_symlink_works=yes \
+		gl_cv_func_unsetenv_works=yes \
+		gl_cv_func_wcrtomb_retval=yes \
+		gl_cv_func_wctob_works=yes \
+		gl_cv_func_wcwidth_works=yes \
+		gl_cv_have_weak=no \
+		gt_cv_int_divbyzero_sigfpe=yes
+
+	cygmake -j1 aliaspath="/usr/share/locale:/usr/local/share/locale:/usr/share/X11/locale"
+}
+
+src_test() {
+	cd ${B}/gettext-runtime
+	cygtest || true
+
+	cd ${B}/gettext-tools
+	cygtest || true
+}
+
+src_install() {
+	cd ${B}/gettext-runtime
+	cyginstall -j1
+
+	# static libraries are deleted during install
+	sed -i -e "s|old_library=.*|old_library=''|" ${D}/usr/lib/libgettext{lib,src}.la
+
+	# csharp interface is not installed
+	rm -fr ${D}/usr/share/doc/${P}/csharpdoc/
+}
