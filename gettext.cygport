@@ -2,7 +2,7 @@
 
 NAME="gettext"
 VERSION=0.18.3.2
-RELEASE=1
+RELEASE=2
 CATEGORY="Libs"
 SUMMARY="GNU Internationalization library and core utilities"
 DESCRIPTION="The GNU gettext package provides a set of tools and documentation
@@ -16,7 +16,10 @@ modifying natural language catalogs and is a powerful and simple method for
 internationalizing programs."
 HOMEPAGE="http://www.gnu.org/software/gettext/"
 SRC_URI="http://ftp.gnu.org/gnu/gettext/gettext-${VERSION}.tar.gz"
-
+SRC_URI+="
+	http://pkgs.fedoraproject.org/cgit/gettext.git/plain/msghack.py
+	http://pkgs.fedoraproject.org/cgit/gettext.git/plain/msghack.1
+"
 PATCH_URI="
 	0.18.1.1-autopoint-V.patch
 	0.18.3.2-localename.patch
@@ -24,7 +27,9 @@ PATCH_URI="
 	0.18.3.2-tests-cygwin.patch
 "
 
-PKG_NAMES="gettext gettext-devel gettext-doc libgettextpo0 libasprintf0 libintl8 emacs-gettext"
+PKG_NAMES="gettext gettext-devel gettext-doc libgettextpo0 libgettextpo-devel
+	libasprintf0 libasprintf-devel libintl8 libintl-devel emacs-gettext"
+gettext_CATEGORY="Text"
 gettext_CONTENTS="--exclude=examples --exclude=html
 	usr/bin/envsubst.exe usr/bin/gettext.* usr/bin/ngettext.exe
 	usr/share/doc/gettext/
@@ -35,29 +40,34 @@ gettext_CONTENTS="--exclude=examples --exclude=html
 	usr/share/man/man1/ngettext.*"
 gettext_devel_CATEGORY="Devel"
 gettext_devel_SUMMARY="GNU Internationalization development utilities"
-gettext_devel_REQUIRES="gettext git"
+gettext_devel_REQUIRES="gettext git libintl-devel"
 gettext_devel_CONTENTS="usr/bin/autopoint usr/bin/cyggettextlib-*.dll
-	usr/bin/cyggettextsrc-*.dll usr/bin/gettextize usr/bin/msg*.exe
+	usr/bin/cyggettextsrc-*.dll usr/bin/gettextize usr/bin/msg*
 	usr/bin/recode-sr-latin.exe usr/bin/xgettext.exe
-	usr/include/autosprintf.h usr/include/gettext-po.h usr/include/libintl.h
-	usr/lib/libasprintf.* usr/lib/libintl.* usr/lib/libgettextpo.*
 	usr/lib/gettext/*
 	usr/share/aclocal/
 	usr/share/gettext/
-	usr/share/info/autosprintf.info* usr/share/info/gettext.info*
+	usr/share/info/gettext.info*
 	usr/share/locale/*/LC_MESSAGES/gettext-tools.mo
 	usr/share/man/man1/autopoint.* usr/share/man/man1/gettextize.*
 	usr/share/man/man1/msg*.* usr/share/man/man1/recode-sr-latin.*
-	usr/share/man/man1/xgettext.*
-	usr/share/man/man3/"
+	usr/share/man/man1/xgettext.*"
 gettext_doc_CATEGORY="Doc"
 gettext_doc_CONTENTS="usr/share/doc/gettext/*/"
-libasprintf0_SUMMARY="C-style formatted output in C++ (runtime)"
+libasprintf0_SUMMARY="C++ library for C-style formatted output"
 libasprintf0_CONTENTS="usr/bin/cygasprintf-0.dll"
+libasprintf_devel_SUMMARY=${libasprintf0_SUMMARY}
+libasprintf_devel_CONTENTS="usr/include/autosprintf.h usr/lib/libasprintf.*
+	usr/share/info/autosprintf.info*"
 libgettextpo0_SUMMARY="GNU Internationalization runtime library"
 libgettextpo0_CONTENTS="usr/bin/cyggettextpo-0.dll"
+libgettextpo_devel_SUMMARY=${libgettextpo0_CONTENTS}
+libgettextpo_devel_CONTENTS="usr/include/gettext-po.h usr/lib/libgettextpo.*"
 libintl8_SUMMARY="GNU Internationalization runtime library"
 libintl8_CONTENTS="usr/bin/cygintl-8.dll"
+libintl_devel_SUMMARY=${libintl8_SUMMARY}
+libintl_devel_CONTENTS="usr/include/libintl.h usr/lib/libintl.* usr/share/man/man3/"
+emacs_gettext_CATEGORY="Devel"
 emacs_gettext_SUMMARY="Emacs PO Mode"
 emacs_gettext_CONTENTS="usr/share/emacs/"
 
@@ -99,6 +109,9 @@ src_test() {
 src_install() {
 	cd ${B}
 	cyginstall -j1
+
+	newbin ${S}/msghack.py msghack
+	doman ${S}/msghack.1
 
 	# static libraries are deleted during install
 	rm -f ${D}/usr/lib/libgettext{lib,src}.*
