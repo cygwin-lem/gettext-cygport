@@ -1,8 +1,8 @@
 # inherit java
 
 NAME="gettext"
-VERSION=0.18.3.2
-RELEASE=2
+VERSION=0.19.3
+RELEASE=1
 CATEGORY="Libs"
 SUMMARY="GNU Internationalization library and core utilities"
 DESCRIPTION="The GNU gettext package provides a set of tools and documentation
@@ -22,9 +22,10 @@ SRC_URI+="
 "
 PATCH_URI="
 	0.18.1.1-autopoint-V.patch
-	0.18.3.2-localename.patch
+	0.19.3-localename.patch
 	0.18.1.1-no-woe32dll.patch
-	0.18.3.2-tests-cygwin.patch
+	0.19.3-tests-cygwin.patch
+	0.19.3-autogen-skip-gnulib.patch
 "
 
 PKG_NAMES="gettext gettext-devel gettext-doc libgettextpo0 libgettextpo-devel
@@ -74,10 +75,15 @@ emacs_gettext_CONTENTS="usr/share/emacs/"
 DIFF_EXCLUDES="aclocal.m4 configure config.* libtool.m4 lt*.m4 ltmain.sh Makefile.in"
 DISTCLEANFILES="m4/libtool.m4"
 
+CYGPORT_USE_UNSTABLE_API=1
+src_patch_hook() {
+	chmod +x build-aux/git-version-gen
+}
+
 src_compile() {
 	cd ${S}
 	libtoolize --copy --force || error "libtoolize failed"
-	./autogen.sh --quick --skip-gnulib
+	./autogen.sh --skip-gnulib
 
 	cd ${B}
 	cygconf \
