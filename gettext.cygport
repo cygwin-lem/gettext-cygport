@@ -62,7 +62,7 @@ libasprintf_devel_CONTENTS="usr/include/autosprintf.h usr/lib/libasprintf.*
 	usr/share/info/autosprintf.info*"
 libgettextpo0_SUMMARY="GNU Internationalization runtime library"
 libgettextpo0_CONTENTS="usr/bin/cyggettextpo-0.dll"
-libgettextpo_devel_SUMMARY=${libgettextpo0_CONTENTS}
+libgettextpo_devel_SUMMARY=${libgettextpo0_SUMMARY}
 libgettextpo_devel_CONTENTS="usr/include/gettext-po.h usr/lib/libgettextpo.*"
 libintl8_SUMMARY="GNU Internationalization runtime library"
 libintl8_CONTENTS="usr/bin/cygintl-8.dll"
