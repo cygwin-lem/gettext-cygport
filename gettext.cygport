@@ -2,7 +2,7 @@
 
 NAME="gettext"
 VERSION=0.19.5.1
-RELEASE=1
+RELEASE=2
 CATEGORY="Libs"
 SUMMARY="GNU Internationalization library and core utilities"
 DESCRIPTION="The GNU gettext package provides a set of tools and documentation
@@ -94,6 +94,10 @@ src_compile() {
 		--without-included-libunistring \
 		--without-included-libxml \
 		--without-libiconv-prefix
+
+	# work around version conflict between gettextize and autopoint
+	# https://lists.gnu.org/archive/html/bug-gettext/2015-07/msg00024.html
+	sed -i 's!^version=0\.19\.5\.1$!version=0.19.5!' gettext-tools/misc/{autopoint,gettextize}
 
 	cygmake -j1 aliaspath="/usr/share/locale:/usr/local/share/locale:/usr/share/X11/locale"
 }
