@@ -26,20 +26,20 @@
  
  : ${DIFF=diff}
  echo 'un morceau de gateau' > plural-1-cake.ok
--LANGUAGE= ../cake fr 1 > plural-1-cake.tmp || exit 1
-+LANGUAGE= ../cake fr_FR 1 > plural-1-cake.tmp || exit 1
- LC_ALL=C tr -d '\r' < plural-1-cake.tmp > cake.out || exit 1
- ${DIFF} plural-1-cake.ok cake.out || exit 1
+-LANGUAGE= ../cake fr 1 > plural-1-cake.tmp || Exit 1
++LANGUAGE= ../cake fr_FR 1 > plural-1-cake.tmp || Exit 1
+ LC_ALL=C tr -d '\r' < plural-1-cake.tmp > cake.out || Exit 1
+ ${DIFF} plural-1-cake.ok cake.out || Exit 1
  echo '2 morceaux de gateau' > plural-1-cake.ok
--LANGUAGE= ../cake fr 2 > plural-1-cake.tmp || exit 1
-+LANGUAGE= ../cake fr_FR 2 > plural-1-cake.tmp || exit 1
- LC_ALL=C tr -d '\r' < plural-1-cake.tmp > cake.out || exit 1
- ${DIFF} plural-1-cake.ok cake.out || exit 1
+-LANGUAGE= ../cake fr 2 > plural-1-cake.tmp || Exit 1
++LANGUAGE= ../cake fr_FR 2 > plural-1-cake.tmp || Exit 1
+ LC_ALL=C tr -d '\r' < plural-1-cake.tmp > cake.out || Exit 1
+ ${DIFF} plural-1-cake.ok cake.out || Exit 1
  echo '10 morceaux de gateau' > plural-1-cake.ok
--LANGUAGE= ../cake fr 10 > plural-1-cake.tmp || exit 1
-+LANGUAGE= ../cake fr_FR 10 > plural-1-cake.tmp || exit 1
- LC_ALL=C tr -d '\r' < plural-1-cake.tmp > cake.out || exit 1
- ${DIFF} plural-1-cake.ok cake.out || exit 1
+-LANGUAGE= ../cake fr 10 > plural-1-cake.tmp || Exit 1
++LANGUAGE= ../cake fr_FR 10 > plural-1-cake.tmp || Exit 1
+ LC_ALL=C tr -d '\r' < plural-1-cake.tmp > cake.out || Exit 1
+ ${DIFF} plural-1-cake.ok cake.out || Exit 1
  
 --- origsrc/gettext-0.19.3/gettext-tools/tests/plural-1-prg.c	2013-05-31 00:01:54.000000000 -0500
 +++ src/gettext-0.19.3/gettext-tools/tests/plural-1-prg.c	2014-11-17 23:26:21.989058800 -0600
@@ -78,8 +78,8 @@
  msgstr[8] "8"
  msgstr[9] "9"
  EOF
--  ${MSGFMT} -o plural-2-dir/ll/LC_MESSAGES/plural.mo plural-2-ll.po || exit 1
-+  ${MSGFMT} -o plural-2-dir/es/LC_MESSAGES/plural.mo plural-2-es.po || exit 1
+-  ${MSGFMT} -o plural-2-dir/ll/LC_MESSAGES/plural.mo plural-2-ll.po || Exit 1
++  ${MSGFMT} -o plural-2-dir/es/LC_MESSAGES/plural.mo plural-2-es.po || Exit 1
    (for i in '' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19; do
       LANGUAGE= TEXTDOMAIN=plural TEXTDOMAINDIR=plural-2-dir \
 -       $NGETTEXT --env LC_ALL=ll X Y ${i}0 ${i}1 ${i}2 ${i}3 ${i}4 ${i}5 ${i}6 ${i}7 ${i}8 ${i}9
