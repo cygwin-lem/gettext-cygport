@@ -1,6 +1,6 @@
 NAME="gettext"
 VERSION=0.19.8.1
-RELEASE=1
+RELEASE=2
 CATEGORY="Libs"
 SUMMARY="GNU Internationalization library and core utilities"
 DESCRIPTION="The GNU gettext package provides a set of tools and documentation
@@ -23,6 +23,8 @@ PATCH_URI="
 	0.19.8.1-no-woe32dll.patch
 	0.19.3-localename.patch
 	0.19.3-tests-cygwin.patch
+	0.19.8.1-cygwin-ftm.patch
+	0.19.8.1-have_wprintf.patch
 "
 
 PKG_NAMES="gettext gettext-devel gettext-doc libgettextpo0 libgettextpo-devel
